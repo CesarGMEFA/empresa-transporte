@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { supabase } from "@/lib/supabase.js";
+import { createClient } from "@supabase/supabase-js";
 import {
     Form,
     FormControl,
@@ -22,9 +22,8 @@ const formSchema = z.object({
   semanas_trabajadas: z.any()
 });
 
-type Props = {id: number}
-
-function FormAdd({ id }: Props) {
+function FormAdd() {
+  const supabase = createClient("https://bqktkajdreerenedeapl.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxa3RrYWpkcmVlcmVuZWRlYXBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MjYxMTksImV4cCI6MjAyMzEwMjExOX0.rwizcUaldZJiof8boU3cZjwgDErYXd51WYtpiVIc27Q");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,28 +58,6 @@ function FormAdd({ id }: Props) {
     }
   }
 
-  useEffect(() => {
-    getEmpleado(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
-
-  async function getEmpleado(id: number) {
-    try {
-      const { data: Empleado, error } = await supabase
-        .from("Empleados")
-        .select("id,nombre,salario_por_hora,horas_trabajadas,horas_semana,semanas_trabajadas")
-        .eq("id", id);
-      if (error) throw error;
-      console.log("Empleado", Empleado);
-      form.setValue("nombre", Empleado[0].nombre);
-      form.setValue("salario_por_hora", Empleado[0].salario_por_hora);
-      form.setValue("horas_trabajadas", Empleado[0].horas_trabajadas);
-      form.setValue("horas_semana", Empleado[0].horas_semana);
-      form.setValue("semanas_trabajadas", Empleado[0].semanas_trabajadas);
-    } catch (error) {
-      console.log("error", error);
-    }
-  }
 
   return (
     <Form {...form}>

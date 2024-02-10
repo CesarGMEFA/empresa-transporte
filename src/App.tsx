@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase.js";
+import { createClient } from "@supabase/supabase-js";
 import { staff } from "@/lib/typeStaff.ts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -18,7 +18,7 @@ import FormAdd from "./components/FormAdd";
 function App() {
   const [empleados, setEmpleados] = useState([] as staff[]);
   const [masHoras, setMasHoras] = useState({} as staff);
-
+  const supabase = createClient("https://bqktkajdreerenedeapl.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxa3RrYWpkcmVlcmVuZWRlYXBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MjYxMTksImV4cCI6MjAyMzEwMjExOX0.rwizcUaldZJiof8boU3cZjwgDErYXd51WYtpiVIc27Q");
   useEffect(() => {
     getEmpleados();
     getEmpleadoMasHoratrabaja();
@@ -48,7 +48,7 @@ function App() {
 
       if (error) throw error;
       console.log("Empleado que mas horas trabaja", Empleado);
-      setMasHoras(Empleado[0]);
+      setMasHoras(Empleado[0] as unknown as staff);
     } catch (error) {
       console.log("error", error);
     }
