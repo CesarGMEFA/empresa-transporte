@@ -1,6 +1,1 @@
-- Calcular el total de horas trabajadas por semana de cada empleado.
-- Calcular el salario semanal de cada empleado.
-- LISTO Indicar el nombre del empleado que trabaja más horas
-- Mostrar un reporte con los puntos anteriores.
-- Tener la conexión de la base de datos.
-- Mostrar el registro de los datos ingresados en la base de datos y tener la opción de eliminar un registro de la base de datos.
+Actividad lista
